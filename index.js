@@ -1,7 +1,9 @@
 const express = require('express'),
     morgan = require('morgan'),
     fs = require('fs'),
-    path = require('path');
+    path = require('path'),
+    bodyParser = require('body-parser'),
+    uuid = require('uuid');
 
 const app = express();
 
@@ -13,19 +15,46 @@ app.use(morgan('combined', {stream: accessLogStream}));
 //this is shorthand for app.use('/', express.static('public'));
 app.use(express.static('public'));
 
-// default names for topMovies (use arrays for directors, writers, stars)
-// title:
-// release_date:
-// directors:
-// writers:
-// stars:
-// imdb_link:
+app.use(bodyParser.json());
+
+//In-memory arrays
+
+let users = [
+    {
+        id: 1,
+        name: 'Jonathan',
+        favoriteMovies: []
+    },
+    {
+        id: 2,
+        name: 'Esther',
+        favoriteMovies: ['Hamilton']
+    },
+    {
+        id: 3,
+        name: 'Lydia',
+        favoriteMovies: ['The Notebook']
+    }
+];
 
 let topMovies = [
     {
         title: 'Monty Python and the Holy Grail',
         release_date: 1975,
-        directors: ['Terry Gilliam', 'Terry Jones'],
+        genre: {
+            name: 'Comedy',
+            description: 'The comedy genre in film is characterized by its focus on humor and entertainment, often exploring the absurdities of life and relationships through witty dialogue, relatable characters, and light-hearted situations.'
+        },
+        directors: [
+            {
+                name: 'Terry Gilliam',
+                bio: 'Terry Gilliam was born near Medicine Lake, Minnesota. When he was 12 his family moved to Los Angeles where he became a fan of MAD magazine. In his early twenties he was often stopped by the police who suspected him of being a drug addict and Gilliam had to explain that he worked in advertising. In the political turmoil in the 60\'s, Gilliam feared he would become a terrorist and decided to leave the USA. He moved to England and landed a job on the children\'s television show Do Not Adjust Your Set (1967) as an animator. There he met meet his future collaborators in Monty Python: Terry Jones, Eric Idle and Michael Palin. In 2006 he renounced his American citizenship.'
+            }, 
+            {
+                name: 'Terry Jones',
+                bio: 'Terry Jones was a Welsh director, actor, and writer, best known as a founding member of the iconic comedy group Monty Python. Born on February 1, 1942, in Cardiff, Wales, he gained fame for his role in creating and directing many of the group\'s classic works, including the films Monty Python and the Holy Grail and Life of Brian. Jones was celebrated for his unique comedic style, blending absurdity with sharp wit. In addition to his work in film, he was a talented author and historian, contributing to various projects on medieval history. Jones continued to influence comedy until his passing on January 21, 2020, leaving behind a legacy of laughter and creativity.'
+            }
+        ],
         writers: ['Graham Chapman', 'John Cleese', 'Eric Idle'],
         stars: ['Graham Chapman', 'John Cleese', 'Eric Idle'],
         imdb_link: 'https://www.imdb.com/title/tt0071853/'
@@ -33,63 +62,50 @@ let topMovies = [
     {
         title: 'Young Frankenstein',
         release_date: 1974,
-        directors: ['Mel Brooks'],
+        genre: {
+            name: 'Comedy',
+            description: 'The comedy genre in film is characterized by its focus on humor and entertainment, often exploring the absurdities of life and relationships through witty dialogue, relatable characters, and light-hearted situations.'
+        },
+        directors: [
+            {
+                name: 'Mel Brooks',
+                bio: 'Mel Brooks is an acclaimed American filmmaker, comedian, and actor, born on June 28, 1926, in Brooklyn, New York. Known for his sharp wit and satirical humor, he gained fame in the 1970s with iconic films such as Blazing Saddles, Young Frankenstein, and The Producers, the latter winning him an Academy Award for Best Original Screenplay. Brooks is celebrated for his ability to blend comedy with social commentary, often parodying popular genres and classic films. With a career spanning over six decades, he has left an indelible mark on the world of comedy, earning numerous accolades, including the EGOT (Emmy, Grammy, Oscar, and Tony) status. His unique style continues to inspire generations of comedians and filmmakers.'
+            }
+        ],
         writers: ['Gene Wilder', 'Mel Brooks', 'Mary Shelley'],
         stars: ['Gene Wilder', 'Madeline Kahn', 'Marty Feldman'],
         imdb_link: 'https://www.imdb.com/title/tt0072431/'
     },
     {
-        title: 'Blazing Saddles',
-        release_date: 1974,
-        directors: ['Mel Brooks'],
-        writers: ['Mel Brooks', 'Norman Steinberg', 'Andrew Bergman'],
-        stars: ['Cleavon Little', 'Gene Wilder', 'Slim Pickens'],
-        imdb_link: 'https://www.imdb.com/title/tt0071230/'
-    },
-    {
-        title: 'The Princess Bride',
-        release_date: 1987,
-        directors: ['Rob Reiner'],
-        writers: ['William Goldman'],
-        stars: ['Cary Elwes', 'Mandy Patinkin', 'Robin Wright'],
-        imdb_link: 'https://www.imdb.com/title/tt0093779/'
-    },
-    {
         title: 'Spies Like Us',
         release_date: 1985,
-        directors: ['John Landis'],
+        genre: {
+            name: 'Comedy',
+            description: 'The comedy genre in film is characterized by its focus on humor and entertainment, often exploring the absurdities of life and relationships through witty dialogue, relatable characters, and light-hearted situations.'
+        },
+        directors: [
+            {
+                name: 'John Landis',
+                bio: 'John Landis is an influential American filmmaker, screenwriter, and producer, born on August 3, 1950, in Chicago, Illinois. He is best known for his work in the comedy and horror genres, directing iconic films such as Animal House, The Blues Brothers, An American Werewolf in London, and Coming to America. Landis gained acclaim for his unique ability to blend humor with horror, particularly in An American Werewolf in London, which won him an Academy Award for Best Makeup. With a career spanning over five decades, he has also worked on numerous music videos and television shows, including the groundbreaking series Thriller by Michael Jackson. Landis is recognized for his significant contributions to cinema and his impact on popular culture.'
+            }
+        ],
         writers: ['Dan Aykroyd', 'Dave Thomas', 'Lowell Ganz'],
         stars: ['Chevy Chase', 'Dan Aykroyd', 'Mark Stewart'],
         imdb_link: 'https://www.imdb.com/title/tt0090056/'
     },
     {
-        title: 'This Is the End',
-        release_date: 2013,
-        directors: ['Evan Goldberg', 'Seth Rogen'],
-        writers: ['Seth Rogan', 'Evan Goldberg', 'Jason Stone'],
-        stars: ['James Franco', 'Jonah Hill', 'Seth Rogan'],
-        imdb_link: 'https://www.imdb.com/title/tt1245492/'
-    },
-    {
-        title: 'Memento',
-        release_date: 2000,
-        directors: ['Christopher Nolan'],
-        writers: ['Christopher Nolan', 'Jonathan Nolan'],
-        stars: ['Guy Pearce', 'Carrie-Anne Moss', 'Joe Pantoliano'],
-        imdb_link: 'https://www.imdb.com/title/tt0209144/'
-    },
-    {
-        title: 'The Boondock Saints',
-        release_date: 1999,
-        directors: ['Troy Duffy'],
-        writers: ['Troy Duffy'],
-        stars: ['Willem Dafoe', 'Sean Patrick Flanery', 'Norman Reedus'],
-        imdb_link: 'https://www.imdb.com/title/tt0144117/'
-    },
-    {
         title: 'Star Wars: Episode IV - A New Hope',
         release_date: 1977,
-        directors: ['George Lucas'],
+        genre: {
+            name: 'Science Fiction',
+            description: 'A sci-fi movie is a genre that explores imaginative and futuristic concepts, often involving advanced technology, space exploration, time travel, parallel universes, or extraterrestrial life, while examining the impact of these elements on society and the human experience.'
+        },
+        directors: [
+            {
+                name: 'George Lucas',
+                bio: 'George Lucas is a pioneering American filmmaker and entrepreneur, born on May 14, 1944, in Modesto, California. He is best known for creating the legendary Star Wars franchise and the Indiana Jones series, revolutionizing the science fiction and adventure genres. Lucas founded Lucasfilm, where he developed groundbreaking special effects technologies that transformed filmmaking, including the creation of Industrial Light & Magic (ILM). His innovative storytelling and visionary world-building have had a lasting impact on cinema, earning him critical acclaim and numerous awards. In addition to directing, he has served as a producer and writer, shaping the landscape of modern film. Lucas is also known for his philanthropic efforts, including initiatives in education and the arts.'
+            }
+        ],
         writers: ['George Lucas'],
         stars: ['Mark Hamill', 'Harrison Ford', 'Carrie Fisher'],
         imdb_link: 'https://www.imdb.com/title/tt0076759/'
@@ -97,39 +113,33 @@ let topMovies = [
     {
         title: 'Garden State',
         release_date: 2004,
-        directors: ['Zach Braff'],
+        genre: {
+            name: 'Dramedy',
+            description: 'A dramedy is a film or television genre that combines elements of drama and comedy, blending humorous moments with serious themes to create a nuanced portrayal of real-life situations and relationships.'
+        },
+        directors: [
+            {
+                name: 'Zach Braff',
+                bio: 'Zach Braff is an American actor, director, and screenwriter, born on April 6, 1975, in South Orange, New Jersey. He gained widespread recognition for his role as J.D. in the hit television series Scrubs, which showcased his unique blend of humor and emotional depth. Braff made his directorial debut with the critically acclaimed film Garden State in 2004, which he also wrote and starred in, earning praise for its authentic portrayal of relationships and mental health. He continued to explore themes of personal growth and self-discovery in his subsequent films, including Wish I Was Here and Going in Style. Known for his creative storytelling and distinctive voice, Braff has made significant contributions to both television and film, resonating with audiences across generations.',
+            }
+        ],
         writers: ['Zach Braff'],
         stars: ['Zach Braff', 'Peter Sarsgaard', 'Natalie Portman'],
         imdb_link: 'https://www.imdb.com/title/tt0333766/'
     },
     {
-        title: 'Silver Linings Playbook',
-        release_date: 2012,
-        directors: ['David O. Russell'],
-        writers: ['David O. Russell', 'Matthew Quick'],
-        stars: ['Bradley Cooper', 'Jennifer Lawrence', 'Robert De Niro'],
-        imdb_link: 'https://www.imdb.com/title/tt1045658/'
-    },
-    {
-        title: 'Limitless',
-        release_date: 2011,
-        directors: ['Neil Burger'],
-        writers: ['Leslie Dixon', 'Alan Glynn'],
-        stars: ['Bradley Cooper', 'Anna Friel', 'Abbie Cornish'],
-        imdb_link: 'https://www.imdb.com/title/tt1219289/'
-    },
-    {
-        title: 'Inception',
-        release_date: 2010,
-        directors: ['Christopher Nolan'],
-        writers: ['Christopher Nolan'],
-        stars: ['Leonardo DiCaprio', 'Joseph Gordon-Levitt', 'Elliot Page'],
-        imdb_link: 'https://www.imdb.com/title/tt1375666/'
-    },
-    {
         title: 'The Terminal',
         release_date: 2004,
-        directors: ['Steven Spielberg'],
+        genre: {
+            name: 'Comedy-Drama',
+            description: 'Comedy-drama is a genre that merges comedic and dramatic elements, balancing humor with emotional depth to explore complex characters and situations, often highlighting the nuances of human relationships and life experiences.'
+        },
+        directors: [
+            {
+                name: 'Steven Spielberg',
+                bio: 'Steven Spielberg is a legendary American filmmaker, producer, and screenwriter, born on December 18, 1946, in Cincinnati, Ohio. Renowned for his groundbreaking work in cinema, he has directed some of the most iconic films in history, including Jaws, E.T. the Extra-Terrestrial, Jurassic Park, and Schindler\'s List, the latter winning him an Academy Award for Best Director. Spielberg is celebrated for his ability to blend genres, combining elements of adventure, science fiction, and historical drama, while often exploring themes of childhood, family, and human resilience. Co-founder of DreamWorks Studios, he has also produced numerous influential films and television series, shaping modern cinema. With a career spanning over five decades, Spielberg\'s impact on the film industry is unparalleled, making him one of the most influential filmmakers of all time.'
+            }
+        ],
         writers: ['Andrew Niccol', 'Sacha Gervasi', 'Jeff Nathanson'],
         stars: ['Tom Hanks', 'Catherine Zeta-Jones', 'Chi McBride'],
         imdb_link: 'https://www.imdb.com/title/tt0362227/'
@@ -137,28 +147,167 @@ let topMovies = [
     {
         title: 'Catch Me If You Can',
         release_date: 2002,
-        directors: ['Steven Spielberg'],
+        genre: {
+            name: 'Biographical Crime Drama',
+            description: 'A biographical crime drama is a genre that portrays the true story of an individual involved in criminal activities, combining factual elements with dramatic storytelling to explore the motivations, consequences, and complexities of their actions.'
+        },
+        directors: [
+            {
+                name: 'Steven Spielberg',
+                bio: 'Steven Spielberg is a legendary American filmmaker, producer, and screenwriter, born on December 18, 1946, in Cincinnati, Ohio. Renowned for his groundbreaking work in cinema, he has directed some of the most iconic films in history, including Jaws, E.T. the Extra-Terrestrial, Jurassic Park, and Schindler\'s List, the latter winning him an Academy Award for Best Director. Spielberg is celebrated for his ability to blend genres, combining elements of adventure, science fiction, and historical drama, while often exploring themes of childhood, family, and human resilience. Co-founder of DreamWorks Studios, he has also produced numerous influential films and television series, shaping modern cinema. With a career spanning over five decades, Spielberg\'s impact on the film industry is unparalleled, making him one of the most influential filmmakers of all time.'
+            }
+        ],
         writers: ['Frank Abagnale Jr.', 'Stan Redding', 'Jeff Nathanson'],
         stars: ['Leonardo DiCaprio', 'Tom Hanks', 'Christopher Walken'],
         imdb_link: 'https://www.imdb.com/title/tt0264464/'
     },
-    {
-        title: 'The Matrix',
-        release_date: 1999,
-        directors: ['Lana Wachowski', 'Lilly Wachowski'],
-        writers: ['Lilly Wachowski', 'Lana Wachowski'],
-        stars: ['Keanu Reeves', 'Laurence Fishburne', 'Carrie-Anne Moss'],
-        imdb_link: 'https://www.imdb.com/title/tt0133093/'
-    }
 ];
 
+//READ
 app.get('/', (req, res) => {
     res.send('Welcome to My Movie App!')
 });
 
+//READ
 app.get('/movies', (req, res) => {
-    res.json(topMovies);
+    res.status(200).json(topMovies);
 });
+
+//READ
+app.get('/movies/:title', (req, res) => {
+    //old method: const title = req.params.title;
+    const { title } = req.params;
+    const movie = topMovies.find( movie => movie.title === title);
+
+    if (movie) {
+        res.status(200).json(movie);
+    } else {
+        res.status(400).send('Movie Not Found')
+    }
+
+})
+
+//READ 
+app.get('/movies/genre/:genreName', (req, res) => {
+    const { genreName } = req.params;
+    const genre = topMovies.find( movie => movie.genre.name === genreName).genre;
+
+    if (genre) {
+        res.status(200).json(genre);
+    } else {
+        res.status(400).send('No such genre')
+    }
+
+})
+
+//READ
+// the default method from class only works if director values are not in an array. the applied method is needed to search the array itself.
+// app.get('/movies/directors/:directorName', (req, res) => {
+//     const { directorName } = req.params;
+//     const director = topMovies.find( movie => movie.directors.name === directorName).directors;
+
+//     if (director) {
+//         res.status(200).json(director);
+//     } else {
+//         res.status(400).send('No such director')
+//     }
+
+// })
+
+app.get('/movies/directors/:directorName', (req, res) => {
+    const { directorName } = req.params;
+
+    // Find the movie that contains the director
+    const movie = topMovies.find(movie => 
+        movie.directors.some(director => director.name === directorName)
+    );
+
+    if (movie) {
+        // Find the specific director's information
+        const director = movie.directors.find(director => director.name === directorName);
+        res.status(200).json(director);
+    } else {
+        res.status(400).send('No such director');
+    }
+})
+
+//CREATE (POST) req.body only usable use to bodyparser
+app.post('/users', (req, res) => {
+    const newUser = req.body;
+
+    if (newUser.name) {
+        newUser.id = uuid.v4();
+        users.push(newUser);
+        res.status(201).json(newUser)
+    } else {
+        res.status(400).send('Users need names')
+    }
+})
+
+//UPDATE (PUT)
+app.put('/users/:id', (req, res) => {
+    const { id } = req.params;
+    const updatedUser = req.body;
+
+    //use let vs const to update and == vs === because of the string vs number. you can also cast to string as well
+    let user = users.find(user => user.id == id);
+
+    if (user) {
+        user.name = updatedUser.name;
+        res.status(200).json(user);
+    } else {
+        res.status(400).send('User not found')
+    }
+
+})
+
+//CREATE (POST but can also be UPDATE/PUT but will delete other data there)
+app.post('/users/:id/:movieTitle', (req, res) => {
+    const { id, movieTitle } = req.params;
+
+    //use let vs const to update and == vs === because of the string vs number. you can also cast to string as well
+    let user = users.find(user => user.id == id);
+
+    if (user) {
+        user.favoriteMovies.push(movieTitle);
+        res.status(200).send(`${movieTitle} has been added to user ${id}'s array`);
+    } else {
+        res.status(400).send('User not found')
+    }
+
+})
+
+//DELETE
+app.delete('/users/:id/:movieTitle', (req, res) => {
+    const { id, movieTitle } = req.params;
+
+    //use let vs const to update and == vs === because of the string vs number. you can also cast to string as well
+    let user = users.find(user => user.id == id);
+
+    if (user) {
+        user.favoriteMovies = user.favoriteMovies.filter(title => title !== movieTitle)
+        res.status(200).send(`${movieTitle} has been removed from user ${id}'s array`);
+    } else {
+        res.status(400).send('User not found')
+    }
+
+})
+
+//DELETE
+app.delete('/users/:id', (req, res) => {
+    const { id } = req.params;
+
+    //use let vs const to update and == vs === because of the string vs number. you can also cast to string as well
+    let user = users.find(user => user.id == id);
+
+    if (user) {
+        users = users.filter(user => user.id != id)
+        res.status(200).send(`User ${id} has been deleted`);
+    } else {
+        res.status(400).send('User not found')
+    }
+
+})
 
 //error handler
 app.use((err, req, res, next) => {
