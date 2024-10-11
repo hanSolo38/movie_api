@@ -11,4 +11,4 @@
 * "nodemon": "^3.1.7"
 
 ### Description
-* Work in progress. Currently, returns movie information along with the genre details and director biographies. Also, users can create a profile where they can add/delete their favorite movies.
+* This is a movie API that allows users to register and add/remove their favorite movies from the movieDB. User can also get a list of all movies, specific movie, genre information and director information.
