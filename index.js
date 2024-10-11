@@ -7,8 +7,12 @@ const bodyParser = require('body-parser');
 const uuid = require('uuid');
 const mongoose = require('mongoose');
 const Models = require('./models.js');
+const swaggerUI = require('swagger-ui-express');
 
 const app = express();
+
+const swaggerFile = path.join(__dirname, 'apiSwagger.json');
+const swaggerJson = JSON.parse(fs.readFileSync(swaggerFile, 'utf8'));
 
 // * Add models and link to mongo db
 const Movies = Models.Movie;
@@ -25,6 +29,9 @@ app.use(morgan('combined', {stream: accessLogStream}));
 app.use(express.static('public'));
 
 app.use(bodyParser.json());
+
+// NOTE: swagger endpoint
+app.use('/api_docs', swaggerUI.serve, swaggerUI.setup(swaggerJson));
 
 // DEPRECATED:
 // In-memory arrays

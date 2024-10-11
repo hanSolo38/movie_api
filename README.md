@@ -6,6 +6,7 @@
 * "morgan": "^1.10.0"
 * "uuid": "^10.0.0"
 * "mongoose": "^8.7.1"
+* "swagger-ui-express": "^5.0.1"
 
 ## Dev Dependencies
 * "nodemon": "^3.1.7"
