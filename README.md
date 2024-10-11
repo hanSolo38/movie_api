@@ -5,6 +5,7 @@
 * "express": "^4.21.0"
 * "morgan": "^1.10.0"
 * "uuid": "^10.0.0"
+* "mongoose": "^8.7.1"
 
 ## Dev Dependencies
 * "nodemon": "^3.1.7"

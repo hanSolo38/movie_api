@@ -51,11 +51,11 @@
             </tr>
             <tr class="even-row">
                 <td>Get genre description by genre name</td>
-                <td>/movies/genre/:genreName</td>
+                <td>/movies/genres/:genreName</td>
                 <td>GET</td>
                 <td>genreName (string)</td>
                 <td>N/A</td>
-                <td>JSON object of the genre and description or an error message</td>
+                <td>JSON object of the genre and description</td>
             </tr>
             <tr class="odd-row">
                 <td>Get director bio by director name</td>
@@ -63,7 +63,7 @@
                 <td>GET</td>
                 <td>directorName (string)</td>
                 <td>N/A</td>
-                <td>JSON object of the director and bio or an error message</td>
+                <td>JSON object of the director and description</td>
             </tr>
             <tr class="even-row">
                 <td>Create a new user</td>
@@ -74,46 +74,52 @@
                     JSON: <br>
                     <pre class="code-block">
 {
-    "name": "string"
+    "Username": "string",
+    "Password": "string",
+    "Email:": "string",
+    "Birthday": Date
 }                   </pre>
                 </td>
                 <td>JSON object of the created user</td>
             </tr>
             <tr class="odd-row">
-                <td>Update user name by ID</td>
-                <td>/users/:id</td>
+                <td>Update user name by Username</td>
+                <td>/users/:Username</td>
                 <td>PUT</td>
-                <td>id (string)</td>
+                <td>Username (string)</td>
                 <td>
                     JSON: <br>
                     <pre class="code-block">
 {
-    "name": "string"
+    "Username": "string",
+    "Password": "string",
+    "Email:": "string",
+    "Birthday": Date
 }                   </pre>
                 </td>
                 <td>JSON object of the updated user or an error message</td>
             </tr>
             <tr class="even-row">
-                <td>Add a movie to user favorites</td>
-                <td>/users/:id/:movieTitle</td>
+                <td>Add a movie to user favorites by movieID</td>
+                <td>/users/:Username/movies/:movieID</td>
                 <td>POST</td>
-                <td>id (string), movieTitle (string)</td>
+                <td>Username (string), movieID (string)</td>
                 <td>N/A</td>
-                <td>Success message or error message</td>
+                <td>JSON object of updated User</td>
             </tr>
             <tr class="odd-row">
                 <td>Remove a movie from user favorites</td>
-                <td>/users/:id/:movieTitle</td>
+                <td>/users/:Username/movies/:movieID</td>
                 <td>DELETE</td>
-                <td>id (string), movieTitle (string)</td>
+                <td>Username (string), movieID (string)</td>
                 <td>N/A</td>
-                <td>Success message or error message</td>
+                <td>JSON object of updated User</td>
             </tr>
             <tr class="even-row">
-                <td>Delete a user by ID</td>
-                <td>/users/:id</td>
+                <td>Delete a user by Username</td>
+                <td>/users/:Username</td>
                 <td>DELETE</td>
-                <td>id (string)</td>
+                <td>Username (string)</td>
                 <td>N/A</td>
                 <td>Success message or error message</td>
             </tr>
