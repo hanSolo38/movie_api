@@ -7,6 +7,9 @@
 * "uuid": "^10.0.0"
 * "mongoose": "^8.7.1"
 * "swagger-ui-express": "^5.0.1"
+* "passport": "^0.7.0"
+* "passport-jwt": "^4.0.1"
+* "passport-local": "^1.0.0"
 
 ## Dev Dependencies
 * "nodemon": "^3.1.7"
