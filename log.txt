@@ -144,3 +144,8 @@ conbined
 ::1 - - [11/Oct/2024:19:35:21 +0000] "GET /api_docs/favicon-32x32.png HTTP/1.1" 304 - "http://localhost:8080/api_docs/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
 ::1 - - [11/Oct/2024:19:37:46 +0000] "GET /movies/ HTTP/1.1" 201 10433 "-" "PostmanRuntime/7.42.0"
 ::1 - - [11/Oct/2024:19:38:43 +0000] "GET /movies HTTP/1.1" 201 10433 "http://localhost:8080/api_docs/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
+::1 - - [14/Oct/2024:21:04:29 +0000] "GET /movies/ HTTP/1.1" 401 - "-" "PostmanRuntime/7.42.0"
+::1 - - [14/Oct/2024:21:05:33 +0000] "POST /users/ HTTP/1.1" 201 169 "-" "PostmanRuntime/7.42.0"
+::1 - - [14/Oct/2024:21:08:57 +0000] "POST /login/?Username=Jonathan&Password=qwerty HTTP/1.1" 200 564 "-" "PostmanRuntime/7.42.0"
+::1 - - [14/Oct/2024:21:10:40 +0000] "GET /movies/ HTTP/1.1" 201 10433 "-" "PostmanRuntime/7.42.0"
+::1 - - [14/Oct/2024:21:30:16 +0000] "GET /movies/The%20Conjuring HTTP/1.1" 401 - "-" "PostmanRuntime/7.42.0"
