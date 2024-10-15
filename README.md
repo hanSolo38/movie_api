@@ -10,6 +10,7 @@
 * "passport": "^0.7.0"
 * "passport-jwt": "^4.0.1"
 * "passport-local": "^1.0.0"
+* "cors": "^2.8.5"
 
 ## Dev Dependencies
 * "nodemon": "^3.1.7"

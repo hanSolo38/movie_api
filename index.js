@@ -32,6 +32,25 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true}));
 
+//* CORS Cross-Origin Resource Sharing (add before any route middleware)
+const cors = require('cors');
+/* Allows requests from all origins 
+app.use(cors()); 
+*/
+//* Code only allows requests from domains listed below
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+
+app.use(cors({
+    origin: (origin, callback) => {
+        if(!origin) return callback(null, true);
+        if(allowedOrigins.indexOf(Origin) === -1){
+            let message = 'The CORS policy for this application doesn\'t allow access from origin ' + origin;
+            return callback(new Error(message ), false);
+        }
+        return callback(null, true);
+    }
+}));
+
 //* Adds auth file (must be after bodyparser urlencoded)
 // NOTE: the app argument ensures Express is available in the auth.js file because we defined it earlier
 let auth = require('./auth.js')(app); 
