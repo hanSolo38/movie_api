@@ -1,1 +1,5 @@
+# Ignore full directory
 node_modules/
+
+# Ignore specific file
+log.txt
