@@ -272,12 +272,19 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
         });
 });
 
-// * error handler
+//* error handler
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Uhoh... something is broken');
 });
 
-app.listen(8080, () => {
-    console.log('App is listening to port 8080')
+//* Location of API 
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0', () => {
+    console.log('Listening on Port ' + port);
 });
+
+//DEPRECATED:
+// app.listen(8080, () => {
+//     console.log('App is listening to port 8080')
+// });
