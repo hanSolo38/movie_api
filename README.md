@@ -12,6 +12,7 @@
 * "passport-local": "^1.0.0"
 * "cors": "^2.8.5"
 * "bcrypt": "^5.1.1"
+* "express-validator": "^7.2.0"
 
 ## Dev Dependencies
 * "nodemon": "^3.1.7"

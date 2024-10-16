@@ -8,6 +8,7 @@ const uuid = require('uuid');
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 const swaggerUI = require('swagger-ui-express');
+const { check, validationResult } = require('express-validator');
 
 const app = express();
 
@@ -136,31 +137,45 @@ app.get('/movies/directors/:directorName', passport.authenticate('jwt', { sessio
   Email: String,
   Birthday: Date
 }*/
-app.post('/users', async (req, res) => {
-    let hashedPassword = Users.hashPassword(req.body.Password);
-    await Users.findOne({ Username: req.body.Username })
-    .then((user) => {
-        if (user) {
-            return res.status(400).send(req.body.Username + 'already exists');
-        } else {
-            Users.create({
+//TODO: add the check logic to user update and possibly add a check for birthday. Potentially add this check to all post endpoints
+app.post('/users', 
+    [
+        check('Username', 'Username is required').isLength({min: 5}),
+        check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+        check('Password', 'Password is required').not().isEmpty(),
+        check('Email', 'Email does not appear to be valid').isEmail
+    ] , async (req, res) => {
+
+        let errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+
+        let hashedPassword = Users.hashPassword(req.body.Password);
+        await Users.findOne({ Username: req.body.Username })
+        .then((user) => {
+            if (user) {
+                return res.status(400).send(req.body.Username + 'already exists');
+            } else {
+                Users.create({
                     Username: req.body.Username,
                     Password: hashedPassword,
                     Email: req.body.Email,
                     Birthday: req.body.Birthday
                 })
                 .then((user) => { res.status(201).json(user) })
-            .catch((error) => {
+                .catch((error) => {
                 console.error(error);
                 res.status(500).send('Error: ' + error);
-            })
-        }
-    })
-    .catch((error) => {
-        console.error(error);
-        res.status(500).send('Error: ' + error);
+                })
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error: ' + error);
+        });
     });
-});
 
 // * UPDATE (PUT)  Update User by username
 //! We’ll expect JSON in this format
