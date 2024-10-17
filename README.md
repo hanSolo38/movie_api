@@ -19,3 +19,4 @@
 
 ### Description
 * This is a movie API that allows users to register and add/remove their favorite movies from the movieDB. User can also get a list of all movies, specific movie, genre information and director information.
+* API URL: 'https://favorite-movies-cc1f1f0fe8fb.herokuapp.com/'
