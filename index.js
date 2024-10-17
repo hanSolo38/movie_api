@@ -39,19 +39,20 @@ const cors = require('cors');
 /* Allows requests from all origins 
 app.use(cors()); 
 */
+app.use(cors());
 //* Code only allows requests from domains listed below
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+// let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
 
-app.use(cors({
-    origin: (origin, callback) => {
-        if(!origin) return callback(null, true);
-        if(allowedOrigins.indexOf(Origin) === -1){
-            let message = 'The CORS policy for this application doesn\'t allow access from origin ' + origin;
-            return callback(new Error(message ), false);
-        }
-        return callback(null, true);
-    }
-}));
+// app.use(cors({
+//     origin: (origin, callback) => {
+//         if(!origin) return callback(null, true);
+//         if(allowedOrigins.indexOf(Origin) === -1){
+//             let message = 'The CORS policy for this application doesn\'t allow access from origin ' + origin;
+//             return callback(new Error(message ), false);
+//         }
+//         return callback(null, true);
+//     }
+// }));
 
 //* Adds auth file (must be after bodyparser urlencoded)
 // NOTE: the app argument ensures Express is available in the auth.js file because we defined it earlier
@@ -139,12 +140,12 @@ app.get('/movies/directors/:directorName', passport.authenticate('jwt', { sessio
   Birthday: Date
 }*/
 //TODO: add the check logic to user update and possibly add a check for birthday. Potentially add this check to all post endpoints
-app.post('/users', 
+app.post('/users',
     [
         check('Username', 'Username is required').isLength({min: 5}),
         check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
         check('Password', 'Password is required').not().isEmpty(),
-        check('Email', 'Email does not appear to be valid').isEmail
+        check('Email', 'Email does not appear to be valid').isEmail()
     ], async (req, res) => {
 
         let errors = validationResult(req);
@@ -159,18 +160,19 @@ app.post('/users',
                 if (user) {
                     return res.status(400).send(req.body.Username + 'already exists');
                 } else {
-                    Users.create({
-                        Username: req.body.Username,
-                        Password: hashedPassword,
-                        Email: req.body.Email,
-                        Birthday: req.body.Birthday
-                    })
-                    .then((user) => { res.status(201).json(user) })
-                    .catch((error) => {
-                        console.error(error);
-                        res.status(500).send('Error: ' + error);
-                    });
-                }
+                    Users
+                        .create({
+                            Username: req.body.Username,
+                            Password: hashedPassword,
+                            Email: req.body.Email,
+                            Birthday: req.body.Birthday
+                        })
+                        .then((user) => { res.status(201).json(user) })
+                        .catch((error) => {
+                            console.error(error);
+                            res.status(500).send('Error: ' + error);
+                        });
+                    }
             })
             .catch((error) => {
                 console.error(error);

@@ -167,3 +167,5 @@ conbined
 ::1 - - [14/Oct/2024:21:39:36 +0000] "GET /movies/directors/Christopher%20Nolan HTTP/1.1" 200 377 "-" "PostmanRuntime/7.42.0"
 ::1 - - [14/Oct/2024:21:40:06 +0000] "DELETE /users/Jonathan HTTP/1.1" 401 - "-" "PostmanRuntime/7.42.0"
 ::1 - - [14/Oct/2024:21:40:11 +0000] "DELETE /users/Jonathan HTTP/1.1" 200 21 "-" "PostmanRuntime/7.42.0"
+127.0.0.1 - - [17/Oct/2024:00:29:20 +0000] "POST /users/ HTTP/1.1" - - "-" "PostmanRuntime/7.42.0"
+127.0.0.1 - - [17/Oct/2024:00:40:07 +0000] "POST /users/ HTTP/1.1" 201 223 "-" "PostmanRuntime/7.42.0"
