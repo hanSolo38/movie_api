@@ -169,3 +169,7 @@ conbined
 ::1 - - [14/Oct/2024:21:40:11 +0000] "DELETE /users/Jonathan HTTP/1.1" 200 21 "-" "PostmanRuntime/7.42.0"
 127.0.0.1 - - [17/Oct/2024:00:29:20 +0000] "POST /users/ HTTP/1.1" - - "-" "PostmanRuntime/7.42.0"
 127.0.0.1 - - [17/Oct/2024:00:40:07 +0000] "POST /users/ HTTP/1.1" 201 223 "-" "PostmanRuntime/7.42.0"
+127.0.0.1 - - [17/Oct/2024:00:54:34 +0000] "POST /login/?Username=Jonathan&Password=qwerty HTTP/1.1" 200 690 "-" "PostmanRuntime/7.42.0"
+127.0.0.1 - - [17/Oct/2024:00:55:16 +0000] "PUT /users/Jonathan HTTP/1.1" 200 173 "-" "PostmanRuntime/7.42.0"
+127.0.0.1 - - [17/Oct/2024:00:55:31 +0000] "PUT /users/Jonathan HTTP/1.1" 422 119 "-" "PostmanRuntime/7.42.0"
+127.0.0.1 - - [17/Oct/2024:00:55:59 +0000] "PUT /users/Jonathan HTTP/1.1" 200 175 "-" "PostmanRuntime/7.42.0"

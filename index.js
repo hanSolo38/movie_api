@@ -139,7 +139,6 @@ app.get('/movies/directors/:directorName', passport.authenticate('jwt', { sessio
   Email: String,
   Birthday: Date
 }*/
-//TODO: add the check logic to user update and possibly add a check for birthday. Potentially add this check to all post endpoints
 app.post('/users',
     [
         check('Username', 'Username is required').isLength({min: 5}),
@@ -189,12 +188,27 @@ app.post('/users',
   Email: String, (required)
   Birthday: Date
 }*/
-app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.put('/users/:Username', passport.authenticate('jwt', { session: false }), 
+    [
+        check('Username', 'Username is required').isLength({min: 5}),
+        check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+        check('Password', 'Password is required').not().isEmpty(),
+        check('Email', 'Email does not appear to be valid').isEmail()
+    ]
+, async (req, res) => {
+    
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+    
     //! Condition to check if username matches updated user
     if(req.user.Username !== req.params.Username){
         return res.status(400).send('Permission Denied')
     }
     // End condition
+
     await Users.findOneAndUpdate({ Username: req.params.Username }, { $set: 
         {
             Username: req.body.Username,
