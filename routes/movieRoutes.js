@@ -17,7 +17,7 @@ let auth = require('../auth.js')(app);
 
 
 // * READ  All movies
-router.get('/', async (req, res) => {
+router.get('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
     Movies.find()
         .then((movies) => {
             res.status(200).json(movies);
