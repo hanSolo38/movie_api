@@ -190,3 +190,4 @@ conbined
 127.0.0.1 - - [01/Nov/2024:01:22:38 +0000] "POST /login/?Username=gooblegooble&Password=qwerty HTTP/1.1" 404 146 "-" "PostmanRuntime/7.42.0"
 127.0.0.1 - - [01/Nov/2024:01:23:00 +0000] "POST /users/ HTTP/1.1" 201 220 "-" "PostmanRuntime/7.42.0"
 127.0.0.1 - - [01/Nov/2024:01:23:12 +0000] "POST /login/?Username=gooble4&Password=qwerty HTTP/1.1" 404 146 "-" "PostmanRuntime/7.42.0"
+127.0.0.1 - - [01/Nov/2024:01:30:36 +0000] "POST /login/?Username=gooble4&Password=qwerty HTTP/1.1" 200 681 "-" "PostmanRuntime/7.42.0"
