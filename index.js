@@ -17,8 +17,8 @@ app.use(bodyParser.urlencoded({ extended: true}));
 //const swaggerJson = JSON.parse(fs.readFileSync(swaggerFile, 'utf8'));
 
 // NOTE: removed useNewUrlParser and useUnifiedTopology as they are depricated and are set by default
-//mongoose.connect('mongodb://localhost:27017/movieDB');
-mongoose.connect(process.env.CONNECTION_URI);
+mongoose.connect('mongodb://localhost:27017/movieDB');
+//mongoose.connect(process.env.CONNECTION_URI);
 
 // * for creating a log which uses FS
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
@@ -50,6 +50,7 @@ app.use(cors());
 
 const movieRoutes = require('./routes/movieRoutes.js');
 const userRoutes = require('./routes/userRoutes.js');
+const authRoutes = require('./auth.js');
 
 // NOTE: swagger endpoint
 //app.use('/api_docs', swaggerUI.serve, swaggerUI.setup(swaggerJson));
@@ -63,6 +64,7 @@ app.get('/', async (req, res) => {
 
 app.use('/movies', movieRoutes);
 app.use('/users', userRoutes);
+authRoutes(app);
 
 //* error handler
 app.use((err, req, res, next) => {

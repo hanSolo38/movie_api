@@ -185,3 +185,8 @@ conbined
 127.0.0.1 - - [30/Oct/2024:22:36:28 +0000] "GET /movies/movies HTTP/1.1" 200 10433 "-" "PostmanRuntime/7.42.0"
 127.0.0.1 - - [30/Oct/2024:22:38:12 +0000] "GET /movies/ HTTP/1.1" 200 10433 "-" "PostmanRuntime/7.42.0"
 127.0.0.1 - - [30/Oct/2024:22:44:27 +0000] "GET /movies HTTP/1.1" 200 10433 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
+127.0.0.1 - - [01/Nov/2024:01:21:53 +0000] "POST /login/?Username=gooblegooble&Password=qwerty HTTP/1.1" 404 146 "-" "PostmanRuntime/7.42.0"
+127.0.0.1 - - [01/Nov/2024:01:22:32 +0000] "POST /login/?Username=gooblegooble&Password=qwerty HTTP/1.1" 404 146 "-" "PostmanRuntime/7.42.0"
+127.0.0.1 - - [01/Nov/2024:01:22:38 +0000] "POST /login/?Username=gooblegooble&Password=qwerty HTTP/1.1" 404 146 "-" "PostmanRuntime/7.42.0"
+127.0.0.1 - - [01/Nov/2024:01:23:00 +0000] "POST /users/ HTTP/1.1" 201 220 "-" "PostmanRuntime/7.42.0"
+127.0.0.1 - - [01/Nov/2024:01:23:12 +0000] "POST /login/?Username=gooble4&Password=qwerty HTTP/1.1" 404 146 "-" "PostmanRuntime/7.42.0"
