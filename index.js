@@ -17,8 +17,8 @@ app.use(bodyParser.urlencoded({ extended: true}));
 //const swaggerJson = JSON.parse(fs.readFileSync(swaggerFile, 'utf8'));
 
 // NOTE: removed useNewUrlParser and useUnifiedTopology as they are depricated and are set by default
-mongoose.connect('mongodb://localhost:27017/movieDB');
-//mongoose.connect(process.env.CONNECTION_URI);
+//mongoose.connect('mongodb://localhost:27017/movieDB');
+mongoose.connect(process.env.CONNECTION_URI);
 
 // * for creating a log which uses FS
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
